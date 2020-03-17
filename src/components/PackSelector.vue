@@ -2,8 +2,8 @@
     <div class="packs-selector panel">
         <div class="panel-insert">
             Selected packs
-
         </div>
+
         <div v-if="!shown" class="packs-selected">
             {{value.join(", ")}}
         </div>
@@ -55,22 +55,21 @@
 </script>
 
 <style scoped>
-
-    label{
+    label {
         display: block;
     }
 
-    .packs{
+    .packs {
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
     }
 
-    .packs-selected{
+    .packs-selected {
         padding-top: 5px;
     }
 
-    .toggle{
+    .toggle {
         text-align: right;
     }
 </style>

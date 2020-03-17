@@ -20,6 +20,7 @@
     import {scenarios} from './data/scenarios';
     import {modules} from './data/modules';
     import {heroes} from './data/heroes';
+    import {customEnvironments} from "@/data/customEnvironments";
     import {aspects} from "@/data/aspects";
     import PlayerSelector from "@/components/PlayerSelector";
     import RandomizationOptions from "@/components/RandomizationOptions";
@@ -59,6 +60,7 @@
                 aspects,
                 packs,
                 difficulties,
+                customEnvironments
             },
             selectedPacks: selectedPacks,
             selectedScenario: null,
@@ -90,12 +92,13 @@
             },
             availableDifficulties() {
                 return this.data.difficulties;
-            },
+            }
         },
         methods: {
             randomize() {
                 this.selectedScenario = randomizer.randomizeScenario(this.availableScenarios, this.availableModules, this.availableDifficulties, this.randomizationOptions);
                 this.selectedDecks = randomizer.randomizeHeroes(this.availableHeroes, this.data.aspects);
+                randomizer.randomizeCustomEnvironments(this.availableScenarios, this.data.customEnvironments);
             }
         },
         components: {

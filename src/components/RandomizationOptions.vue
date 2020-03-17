@@ -3,12 +3,16 @@
         <div class="panel-insert">
             Custom Options
         </div>
-        <div v-if="shown">
+        <div v-if="shown" class='custom-options'>
             <div>
-                <button :disabled="value.additionalModules <= 0" @click="additionalModulesChange((value.additionalModules || 0) - 1)">-</button>
-                {{ value.additionalModules||0 }}
-                <button @click="additionalModulesChange(parseInt(value.additionalModules || 0) + 1)">+</button>
+                <button :disabled="customOptions.additionalModules <= 0" @click="additionalModulesChange((customOptions.additionalModules || 0) - 1)">-</button>
+                {{ customOptions.additionalModules || 0 }}
+                <button @click="additionalModulesChange(parseInt(customOptions.additionalModules || 0) + 1)">+</button>
                 Extra Modules
+            </div>
+
+            <div>
+                <input type="checkbox" @input="toggleCustomEnvironments($event.target.checked)">Custom Environments
             </div>
 
             <div @click="shown=!shown" class="panel-insert-content">
@@ -28,7 +32,7 @@
     export default {
         name: "RandomizationOptions",
         props: {
-            value: {
+            customOptions: {
                 default: {},
             },
         },
@@ -36,15 +40,28 @@
             shown: false,
         }),
         methods: {
-            additionalModulesChange(modules){
-                const newValue = {...this.value};
-                newValue.additionalModules = modules;
-                this.$emit("input", newValue);
+            additionalModulesChange(modules) {
+                this.customOptions = {...this.customOptions};
+                this.customOptions.additionalModules = modules;
+                this.$emit("input", this.customOptions);
             },
+            toggleCustomEnvironments(shouldIncludeCustomEnvironments) {
+                this.customOptions = {...this.customOptions};
+                this.customOptions.shouldIncludeCustomEnvironments = shouldIncludeCustomEnvironments;
+                this.$emit("input", this.customOptions);
+            }
         },
     }
 </script>
 
 <style scoped>
-
+    .custom-options {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+    
+    .custom-options div {
+        margin: auto
+    }
 </style>
