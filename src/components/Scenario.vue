@@ -3,24 +3,25 @@
         <div class="title panel-insert" @click="shown=!shown">Scenario</div>
         <div class="content" v-if="shown">
             <div>
-                <div class="main-scenario">
+                <div class="horizontal-card">
                     <img :src="scenario.scenario.img" :alt="scenario.scenario.name">
                     <div class="panel-insert-content">
                         {{scenario.scenario.name}}({{scenario.scenario.pack}})
                     </div>
                 </div>
                 <div v-bind:key="index" v-for="({deck, modules}, index) in scenario.modules">
-                    <div class="deck" v-if="modules.length > 0">
-                        <div class="deck-name" v-if="scenario.modules.length > 1">Deck {{deck.name}}</div>
-                        <div class="modules">
-                            <div :key="index2" v-for="(mod, index2) in modules">
-                                <img :src="mod.img" :alt="mod.name"/>
-                                <div class="panel-insert-content">
-                                    {{mod.name}}({{mod.pack}})
-                                </div>
+                    <div v-if="modules.length > 0">
+                        <div v-if="scenario.modules.length > 1">Deck {{deck.name}}</div>
+                        <div class="horizontal-card" :key="index2" v-for="(mod, index2) in modules">
+                            <img :src="mod.img" :alt="mod.name"/>
+                            <div class="panel-insert-content">
+                                {{mod.name}}({{mod.pack}})
                             </div>
                         </div>
                     </div>
+                </div>
+                <div v-if="environment">
+                    <img :src="environment.img" :alt="environment.name"/>
                 </div>
             </div>
             <div class="difficulty panel-insert-content">
@@ -41,6 +42,9 @@
             scenario: {
                 required: true,
             },
+            environment: {
+                default: {}
+            }
         },
         data() {
             return {
@@ -51,30 +55,25 @@
 </script>
 
 <style scoped>
-    img{
+    img {
         box-sizing: border-box;
         width: 100%;
-        max-width: 500px;
+        max-width: 300px;
         padding: 0 10px;
     }
 
-    .modules{
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .modules > div{
-        flex-basis: 50%;
-        margin: 20px 0;
-        display: inline-block;
-    }
-
-    .difficulty-value{
+    .difficulty-value {
         font-weight: bold;
     }
 
-    .content{
+    .content {
         text-align: center;
+    }
+
+    .horizontal-card {
+        display: flex;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
 </style>
