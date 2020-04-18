@@ -10,7 +10,7 @@
         <PackSelector :packs="data.packs" v-model="selectedPacks"/>
         <RandomizationOptions v-model="randomizationOptions"/>
 
-        <Scenario :scenario="selectedScenario"/>
+        <Scenario :scenario="selectedScenario" :environment="selectedEnvironment"/>
         <DeckList :available-decks="selectedDecks" :number-of-player="numberOfPlayer"/>
         <Changelog/>
     </div>
@@ -20,6 +20,7 @@
     import {scenarios} from './data/scenarios';
     import {modules} from './data/modules';
     import {heroes} from './data/heroes';
+    import {customEnvironments} from "@/data/customEnvironments";
     import {aspects} from "@/data/aspects";
     import PlayerSelector from "@/components/PlayerSelector";
     import RandomizationOptions from "@/components/RandomizationOptions";
@@ -59,9 +60,11 @@
                 aspects,
                 packs,
                 difficulties,
+                customEnvironments
             },
             selectedPacks: selectedPacks,
             selectedScenario: null,
+            selectedEnvironment: null,
             selectedDecks: [],
             numberOfPlayer: 1,
             randomizationOptions: {},
@@ -90,12 +93,16 @@
             },
             availableDifficulties() {
                 return this.data.difficulties;
-            },
+            }
         },
         methods: {
             randomize() {
                 this.selectedScenario = randomizer.randomizeScenario(this.availableScenarios, this.availableModules, this.availableDifficulties, this.randomizationOptions);
                 this.selectedDecks = randomizer.randomizeHeroes(this.availableHeroes, this.data.aspects);
+                this.selectedEnvironment = null;
+                if (this.randomizationOptions.shouldIncludeCustomEnvironments) {
+                    this.selectedEnvironment = randomizer.randomizeCustomEnvironments(this.availableScenarios, this.data.customEnvironments);
+                }
             }
         },
         components: {
