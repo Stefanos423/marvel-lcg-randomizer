@@ -1,3 +1,3 @@
 module.exports = {
-    // publicPath: '/marvel-lcg-randomizer/'
+    publicPath: '/marvel-lcg-randomizer/'
 };
